@@ -30,6 +30,14 @@ To ensure everything works correctly, make sure that your `tsconfig.json` has [`
 }
 ```
 
+```ts twoslash
+import { defineConfig } from 'vitepress'
+ 
+export default defineConfig({
+  title: 'TypeScript',
+})
+```
+
 ## Type Inference
 
 viem can infer types based on [ABI](https://docs.soliditylang.org/en/v0.8.15/abi-spec.html#json) and [EIP-712](https://eips.ethereum.org/EIPS/eip-712) Typed Data definitions (powered by [ABIType](https://abitype.dev)), giving you full end-to-end type-safety from your contracts to your frontend and incredible developer experience (e.g. autocomplete ABI function names and catch misspellings, strongly-typed ABI function arguments, etc.).

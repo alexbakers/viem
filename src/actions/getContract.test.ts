@@ -250,3 +250,63 @@ test.each([
     ).toEqual(expected)
   },
 )
+
+const contract_ = getContract({
+  ...wagmiContractConfig,
+  publicClient,
+  walletClient,
+})
+
+// createEventFilter
+contract_.createEventFilter.Transfer({})
+contract_.createEventFilter.Transfer({ from: '0x' })
+contract_.createEventFilter.Transfer({ from: '0x' }, { fromBlock: 10_000n })
+contract_.createEventFilter.Approval(['0x', null])
+contract_.createEventFilter.Approval([])
+contract_.createEventFilter.ApprovalForAll()
+
+// estimateGas
+contract.estimateGas.mint({ account: '0x' })
+contract.estimateGas.safeTransferFrom(['0x', '0x', 1n], {
+  account: '0x',
+})
+
+// read
+contract_.read.totalSupply()
+contract_.read.balanceOf(['0x'])
+contract_.read.balanceOf(['0x'], { blockNumber: 10_000n })
+
+// simulate
+contract_.simulate.mint({ account: '0x' })
+contract_.simulate.safeTransferFrom(['0x', '0x', 1n], {
+  account: '0x',
+})
+
+// watchEvent
+contract_.watchEvent.Transfer({ onLogs })
+contract_.watchEvent.Transfer({ args: { from: '0x' }, onLogs })
+contract_.watchEvent.Approval({ args: ['0x', null], onLogs })
+
+contract_.watchEvent.Transfer({ onLogs })
+contract_.watchEvent.Transfer({ from: '0x' }, { onLogs })
+contract_.watchEvent.Approval({ onLogs })
+contract_.watchEvent.Approval(['0x', null], { onLogs })
+
+// write
+contract_.write.mint({ account: '0x' })
+contract_.write.safeTransferFrom(['0x', '0x', 1n], {
+  account: '0x',
+})
+
+function onLogs() {}
+
+// no args: watch({ options })
+// has args: watch({ foo: 'bar' }, { options })
+// optional args: watch({}, { options })
+
+// no args: read({ options })
+// has args: read({ foo: 'bar' }, { options })
+
+// TODO: check overloads with args and without
+// mint()
+// mint(uint256)

@@ -26,9 +26,8 @@ export type EncodeEventTopicsParameters<
   TEventName extends string = string,
 > = {
   abi: Narrow<TAbi>
-  args?: GetEventArgs<TAbi, TEventName>
   eventName: InferEventName<TAbi, TEventName>
-}
+} & GetEventArgs<TAbi, TEventName>
 
 export function encodeEventTopics<
   TAbi extends Abi | readonly unknown[],

@@ -38,4 +38,4 @@ export type Filter<
         args?: never
         eventName?: never
       }
-  : {})
+  : unknown)

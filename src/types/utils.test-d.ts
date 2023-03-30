@@ -1,5 +1,5 @@
 import { test, expectTypeOf } from 'vitest'
-import type { Filter, IsNever, IsUndefined, RequiredBy } from './utils'
+import type { Filter, IsNever, IsUndefined, IsUnion, RequiredBy } from './utils'
 
 test('Filter', () => {
   expectTypeOf<Filter<[1, 'foo', false, 'baz'], 1 | boolean>>().toEqualTypeOf<
@@ -31,6 +31,16 @@ test('IsUndefined', () => {
   expectTypeOf<IsUndefined<[]>>().toEqualTypeOf<false>()
   expectTypeOf<IsUndefined<{}>>().toEqualTypeOf<false>()
   expectTypeOf<IsUndefined<undefined[]>>().toEqualTypeOf<false>()
+})
+
+test('IsUnion', () => {
+  expectTypeOf<IsUnion<string | number>>().toEqualTypeOf<true>()
+  expectTypeOf<IsUnion<string | readonly []>>().toEqualTypeOf<true>()
+  expectTypeOf<IsUnion<undefined | []>>().toEqualTypeOf<true>()
+
+  expectTypeOf<IsUnion<undefined>>().toEqualTypeOf<false>()
+  expectTypeOf<IsUnion<never>>().toEqualTypeOf<false>()
+  expectTypeOf<IsUnion<string | string>>().toEqualTypeOf<false>()
 })
 
 test('RequiredBy', () => {

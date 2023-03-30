@@ -38,6 +38,21 @@ export type IsNever<T> = [T] extends [never] ? true : false
 export type IsUndefined<T> = [undefined] extends [T] ? true : false
 
 /**
+ * @description Checks if {@link T} is union type
+ * @param T - Type to check
+ * @example
+ * type Result = IsUnion<string | number>
+ * //   ^? type Result = true
+ */
+export type IsUnion<T, K = T> = [T] extends [never]
+  ? false
+  : T extends K
+  ? [K] extends [T]
+    ? false
+    : true
+  : never
+
+/**
  * Excludes empty attributes from T if TMaybeExclude is true.
  *
  * @example

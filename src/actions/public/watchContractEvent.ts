@@ -40,7 +40,6 @@ export type WatchContractEventParameters<
   address?: Address | Address[]
   /** Contract ABI. */
   abi: Narrow<TAbi>
-  args?: GetEventArgs<TAbi, TEventName>
   /** Whether or not the event logs should be batched on each invocation. */
   batch?: boolean
   /** Contract event. */
@@ -51,7 +50,7 @@ export type WatchContractEventParameters<
   onLogs: OnLogsFn<TAbi, TEventName>
   /** Polling frequency (in ms). Defaults to Client's pollingInterval config. */
   pollingInterval?: number
-}
+} & GetEventArgs<TAbi, TEventName>
 
 export type WatchContractEventReturnType = () => void
 

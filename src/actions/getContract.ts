@@ -523,7 +523,7 @@ type GetEventFilter<
   ? _Parameters extends { args?: object }
     ? (
         /** Arguments to pass event */
-        args?: _Parameters['args'],
+        args: _Parameters['args'],
         params?: Prettify<Omit<_Parameters, 'args'>>,
       ) => CreateEventFilterReturnType
     : (
@@ -535,7 +535,7 @@ type GetEventFilter<
        *
        * Use a [const assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions) on `getContract` `abi` for type inference.
        */
-      args?: object | undefined,
+      args: object | undefined,
       params?: Prettify<Omit<_Parameters, 'args'>>,
     ) => CreateEventFilterReturnType
 

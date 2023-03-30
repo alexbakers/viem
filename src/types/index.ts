@@ -120,6 +120,7 @@ export type {
 export type {
   IsNever,
   IsUndefined,
+  IsUnion,
   PartialBy,
   Prettify,
   MergeIntersectionProperties,

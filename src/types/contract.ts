@@ -19,7 +19,7 @@ import type {
 } from 'abitype'
 import type { Hex, LogTopic } from './misc'
 import type { TransactionRequest } from './transaction'
-import type { Filter, MaybeRequired } from './utils'
+import type { Filter, IsUnion, MaybeRequired } from './utils'
 
 export type AbiItem = Abi[number]
 
@@ -213,7 +213,7 @@ export type GetErrorArgs<
 export type GetEventArgs<
   TAbi extends Abi | readonly unknown[],
   TEventName extends string,
-  TConfig extends EventParametersConfig = EventParametersDefaultConfig,
+  TConfig extends EventParameterOptions = DefaultEventParameterOptions,
   TAbiEvent extends AbiEvent & { type: 'event' } = TAbi extends Abi
     ? ExtractAbiEvent<TAbi, TEventName>
     : AbiEvent & { type: 'event' },
@@ -222,10 +222,25 @@ export type GetEventArgs<
     | ([TArgs] extends [never] ? true : false)
     | (readonly unknown[] extends TArgs ? true : false),
 > = true extends FailedToParseArgs
-  ? readonly unknown[]
+  ? {
+      /**
+       * Arguments to pass event
+       *
+       * Use a [const assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions) on {@link abi} for type inference.
+       */
+      args?: readonly unknown[]
+    }
   : TArgs extends readonly []
-  ? never
-  : TArgs
+  ? IsUnion<TArgs> extends true
+    ? {
+        /** Arguments to pass event */ args?: TArgs
+      }
+    : {
+        args?: never
+      }
+  : {
+      /** Arguments to pass event */ args: TArgs
+    }
 
 export type GetEventArgsFromTopics<
   TAbi extends Abi | readonly unknown[],
@@ -245,17 +260,6 @@ export type GetEventArgsFromTopics<
 //////////////////////////////////////////////////////////////////////
 // ABI event types
 
-// TODO: Consolidate these
-type EventParametersConfig = {
-  EnableUnion: boolean
-  IndexedOnly: boolean
-  Required: boolean
-}
-type EventParametersDefaultConfig = {
-  EnableUnion: true
-  IndexedOnly: true
-  Required: false
-}
 type EventParameterOptions = {
   EnableUnion?: boolean
   IndexedOnly?: boolean
